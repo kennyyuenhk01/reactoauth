@@ -1,0 +1,59 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-reactoauth-dev-91317-authRole",
+      "UnauthRoleArn": "arn:aws:iam::997314757667:role/amplify-reactoauth-dev-91317-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::997314757667:role/amplify-reactoauth-dev-91317-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-reactoauth-dev-91317-deployment",
+      "UnauthRoleName": "amplify-reactoauth-dev-91317-unauthRole",
+      "StackName": "amplify-reactoauth-dev-91317",
+      "StackId": "arn:aws:cloudformation:ca-central-1:997314757667:stack/amplify-reactoauth-dev-91317/e725d380-3f67-11ec-a87d-026451b773ca",
+      "AmplifyAppId": "duo3jks30n0p3"
+    }
+  },
+  "auth": {
+    "reactoauthe850c1a8": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "loginMechanisms": [
+          "PREFERRED_USERNAME"
+        ],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "lastPushTimeStamp": "2021-11-07T01:26:59.400Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-reactoauth-dev-91317-deployment/amplify-cfn-templates/auth/reactoauthe850c1a8-cloudformation-template.yml",
+        "logicalId": "authreactoauthe850c1a8"
+      },
+      "output": {
+        "UserPoolId": "ca-central-1_JlqL8UOdB",
+        "AppClientIDWeb": "7hecr3sqlkrkdj7ugim714iqf8",
+        "AppClientID": "4jnihopqd6mmo6i4nfgsp3a59d",
+        "HostedUIDomain": "reactoauth3847574a-3847574a-dev",
+        "IdentityPoolId": "ca-central-1:b261939b-8c4f-4fee-a5c6-dd4dca699712",
+        "UserPoolArn": "arn:aws:cognito-idp:ca-central-1:997314757667:userpool/ca-central-1_JlqL8UOdB",
+        "IdentityPoolName": "reactoauthe850c1a8_identitypool_e850c1a8__dev",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\"],\"LogoutURLs\":[\"http://localhost:3000/\"]}",
+        "UserPoolName": "reactoauthe850c1a8_userpool_e850c1a8"
+      },
+      "lastPushDirHash": "2IcY0RJzclEiuybyHPKrC/47YRY="
+    }
+  }
+}
