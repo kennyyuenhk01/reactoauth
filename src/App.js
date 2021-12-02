@@ -12,7 +12,11 @@ function App() {
   const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState();
   const [msg, setMsg] = useState();
-  const folderName = "video/";
+  var currentTime = new Date();
+  var month = currentTime.getMonth() + 1;
+  var year = currentTime.getFullYear();
+  var day = currentTime.getDate();
+  const folderName = year+"/"+month+"/"+day+"/";
 
   useEffect(() => {
 
@@ -67,8 +71,8 @@ function App() {
     console.log(filename);
     console.log(fileSize);
     if(filename){
-      if(fileSize>400000){
-        setMsg('The Maximum size you can upload is 400KB!');
+      if(fileSize>8000000){
+        setMsg('The Maximum size you can upload is 8MB!');
         return(false);
       }
       Storage.put(folderName+filename, ref.current.files[0], {
