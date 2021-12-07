@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Amplify from '@aws-amplify/core';
 import { Auth, Storage } from 'aws-amplify';
 //import upload from './component/upload';
@@ -12,6 +12,7 @@ function App() {
   const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState();
   const [msg, setMsg] = useState();
+  const [msgType, setMsgType] = useState('success');
   var currentTime = new Date();
   var month = currentTime.getMonth() + 1;
   var year = currentTime.getFullYear();
@@ -53,8 +54,10 @@ function App() {
 
   const ref = useRef(null);
 
-  const loadImages = () => {
-    Storage.list('').then(files => { 
+  const loadList = () => {
+    Storage.list('',{
+      level: '',
+    }).then(files => { // file name filter, if listing all files without prefix, pass '' instead
       setFiles(files);
     }).catch(err => { 
       console.log(err);
@@ -62,7 +65,7 @@ function App() {
   }
 
   useEffect(() => {
-    loadImages();
+    loadList();
   }, []);
 
   const handleFileLoad = (e) => {
@@ -73,6 +76,7 @@ function App() {
     if(filename){
       if(fileSize>8000000){
         setMsg('The Maximum size you can upload is 8MB!');
+        setMsgType('error');
         return(false);
       }
       Storage.put(folderName+filename, ref.current.files[0], {
@@ -86,8 +90,9 @@ function App() {
         contentType: "video/mp4",
       }).then(resp => {
         console.log(resp);
-        loadImages();
+        loadList();
         setMsg(user.email+' uploaded '+filename+' successful!');
+        setMsgType('success');
         console.log(user.email,'uploaded', filename, 'successful!');
       }).catch(err => {console.log(err);});
     }
@@ -119,7 +124,7 @@ function App() {
         <div className="desc2">Please upload your video: </div>
         <input className="uploadBtn" ref={ref} type="file" accept=".mp4" onChange={handleFileLoad} />
         <div className="progressBar">{ progress }</div>
-        <div className="progressBar">{ msg }</div>
+        <div className={"msgBar "+msgType}>{ msg }</div>
         {/* { files.length } */}
         <table id="videoList">
           <thead>
