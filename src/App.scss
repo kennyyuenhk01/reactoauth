@@ -114,14 +114,25 @@ body {
   font-size: 15px;
   font-weight: 500;
 
-  div.progressBar{
+  .progressBar, .msgBar{
     color: #fff;
-    text-align: center;
-    padding-top: 20px;
+    text-align: left;
+    padding: 20px 40px 0;
   }
   table#videoList{
     padding: 24px 40px;
     color: #fff;
+    button{
+      background: transparent;
+      border: 1px solid var(--button-inactive);
+      border-radius: 20px;
+      color: rgb(249 250 251 / 55%);
+      padding: 4px 8px;
+      cursor: pointer;
+      &:hover{
+        color: rgb(249 250 251 / 100%);;
+      }
+    }
   }
   
   div.desc{
@@ -165,6 +176,12 @@ body {
     &:hover{
       color: rgb(249 250 251 / 100%);;
     }
+  }
+  div.success{
+    color: #5fcf65;
+  }
+  div.error{
+    color: #f96057;
   }
 }
 

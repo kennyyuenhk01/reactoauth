@@ -112,14 +112,25 @@ body {
   font-size: 15px;
   font-weight: 500;
 }
-.app div.progressBar {
+.app .progressBar, .app .msgBar {
   color: #fff;
-  text-align: center;
-  padding-top: 20px;
+  text-align: left;
+  padding: 20px 40px 0;
 }
 .app table#videoList {
   padding: 24px 40px;
   color: #fff;
+}
+.app table#videoList button {
+  background: transparent;
+  border: 1px solid var(--button-inactive);
+  border-radius: 20px;
+  color: rgba(249, 250, 251, 0.55);
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.app table#videoList button:hover {
+  color: #f9fafb;
 }
 .app div.desc {
   color: var(--theme-color);
@@ -159,6 +170,12 @@ body {
 }
 .app .logOut:hover {
   color: #f9fafb;
+}
+.app div.success {
+  color: #5fcf65;
+}
+.app div.error {
+  color: #f96057;
 }
 
 .header {
