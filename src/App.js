@@ -14,9 +14,16 @@ function App() {
   const [msg, setMsg] = useState();
   const [msgType, setMsgType] = useState('success');
   var currentTime = new Date();
-  var month = currentTime.getMonth() + 1;
   var year = currentTime.getFullYear();
-  var day = currentTime.getDate();
+  var month = ''+(currentTime.getMonth() + 1);
+  var day = ''+currentTime.getDate();
+
+  if (month.length < 2){
+    month = '0' + month;
+  }
+  if (day.length < 2){
+    day = '0' + day;
+  }
   const folderName = year+"/"+month+"/"+day+"/";
 
   useEffect(() => {
