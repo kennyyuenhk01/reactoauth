@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Amplify from '@aws-amplify/core';
 import { Auth, Storage } from 'aws-amplify';
-//import upload from './component/upload';
 import avatar from './asset/default_avatar.jpg';
 import './App.css';
 
+const whiteList = JSON.parse(process.env.REACT_APP_WHITE_LIST)
 
 function App() {
 
@@ -62,18 +62,23 @@ function App() {
   const ref = useRef(null);
 
   const loadList = () => {
-    Storage.list('',{
-      level: '',
-    }).then(files => { // file name filter, if listing all files without prefix, pass '' instead
-      setFiles(files);
-    }).catch(err => { 
-      console.log(err);
-    });
+    if(user) {
+      Storage.list('',{
+        level: '',
+      }).then(files => { // file name filter, if listing all files without prefix, pass '' instead
+        setFiles(files);
+      }).catch(err => { 
+        console.log(err);
+      });
+    }
+    else{
+      console.log("need login to show list");
+    }
   }
 
   useEffect(() => {
     loadList();
-  }, []);
+  });
 
   const handleFileLoad = (e) => {
     const filename = ref.current.files[0].name;
@@ -109,53 +114,80 @@ function App() {
   }
 
   if(user) {
-    return(
-      <div className="app">
-        <div className="header">
-          <div className="menu-circle"></div>
-          <div className="header-menu">
-            <button href="#" className="menu-link is-active">Upload Files</button>
-            {/*<button href="#" className="menu-link notify">Your History</button>
-            <button href="#" className="menu-link">Remarks</button>*/}
-          </div>
-          {/*<div className="search-bar">
-            <input type="text" placeholder="Search" />
-          </div>*/}
-          <div className="header-profile">
-            <h6>Welcome! { user.email }</h6>
-            <div className="dropdown profilePic">
-              <img className="profile-img" src={avatar} alt="" />
+
+    var whitelistpass = false;
+
+
+    for (var i=0;i<(whiteList.length);i++){
+
+      //console.log(i+" "+user.email+" "+whiteList[i]);
+      if(user.email===whiteList[i]){
+        // console.log('you are whitelist user!');
+        whitelistpass = true;
+      }
+    }
+    if (whitelistpass){
+      return(
+        <div className="app">
+          <div className="header">
+            <div className="menu-circle"></div>
+            <div className="header-menu">
+              <button href="#" className="menu-link is-active">Upload Files</button>
+              {/*<button href="#" className="menu-link notify">Your History</button>
+              <button href="#" className="menu-link">Remarks</button>*/}
+            </div>
+            {/*<div className="search-bar">
+              <input type="text" placeholder="Search" />
+            </div>*/}
+            <div className="header-profile">
+              <h6>Welcome! { user.email }</h6>
+              <div className="dropdown profilePic">
+                <img className="profile-img" src={avatar} alt="" />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="desc2">Please upload your video: </div>
-        <input className="uploadBtn" ref={ref} type="file" accept=".mp4" onChange={handleFileLoad} />
-        <div className="progressBar">{ progress }</div>
-        <div className={"msgBar "+msgType}>{ msg }</div>
-        {/* { files.length } */}
-        <table id="videoList">
-          <thead>
-            <tr>
-              <td>#</td>
-              <td>File Name</td>
-              <td>Action</td>
-            </tr>
-          </thead>
-          <tbody>
-            {files.map((file,i) =>(
-              <tr key={file.key}>
-                <td>{i+1}</td>
-                <td>{file.key}</td>
-                <td>
-                  <button onClick={ ()=> window.open("https://kenny-react-bucket-ca.s3.ca-central-1.amazonaws.com/public/"+file.key, "_blank") }>Open Link</button>
-                </td>
+          <div className="desc2">Please upload your video: </div>
+          <input className="uploadBtn" ref={ref} type="file" accept=".mp4" onChange={handleFileLoad} />
+          <div className="progressBar">{ progress }</div>
+          <div className={"msgBar "+msgType}>{ msg }</div>
+          <table id="videoList">
+            <thead>
+              <tr>
+                <td>#</td>
+                <td>File Name</td>
+                <td>Action</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <button className="logOut" onClick = { logOff} > Log Out</button>
-      </div>
-    );
+            </thead>
+            <tbody>
+              {files.map((file,i) =>(
+                <tr key={file.key}>
+                  <td>{i+1}</td>
+                  <td>{file.key}</td>
+                  <td>
+                    <button onClick={ ()=> window.open("https://kenny-react-bucket-ca.s3.ca-central-1.amazonaws.com/public/"+file.key, "_blank") }>Open Link</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button className="logOut" onClick = { logOff} > Log Out</button>
+        </div>
+      );
+    }
+    else{
+      return(
+        <div className="app" style={{height:"250px"}}>
+          <div className="header">
+            <div className="menu-circle"></div>
+            <div className="header-menu">
+              <button href="#" className="menu-link is-active">Login</button>
+            </div>
+          </div>
+          <div className="desc">{user.email} <br></br>You have no access! Please Login another google account!</div>
+              <button className="logOut" onClick = { logOff} > Logout</button>
+        </div>
+      );
+    }
   } else {
     return (
       <div className="app" style={{height:"250px"}}>
