@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Amplify from '@aws-amplify/core';
 import { Auth, Storage } from 'aws-amplify';
 import avatar from './asset/default_avatar.jpg';
+import { format } from 'date-fns';
+import loadList from './component/loadList';
 import './App.css';
 
 const whiteList = JSON.parse(process.env.REACT_APP_WHITE_LIST)
@@ -13,18 +15,7 @@ function App() {
   const [progress, setProgress] = useState();
   const [msg, setMsg] = useState();
   const [msgType, setMsgType] = useState('success');
-  var currentTime = new Date();
-  var year = currentTime.getFullYear();
-  var month = ''+(currentTime.getMonth() + 1);
-  var day = ''+currentTime.getDate();
-
-  if (month.length < 2){
-    month = '0' + month;
-  }
-  if (day.length < 2){
-    day = '0' + day;
-  }
-  const folderName = year+"/"+month+"/"+day+"/";
+  const folderName = format(new Date(), 'yyyy/MM/dd');
 
   useEffect(() => {
 
@@ -60,21 +51,6 @@ function App() {
   }
 
   const ref = useRef(null);
-
-  const loadList = () => {
-    if(user) {
-      Storage.list('',{
-        level: '',
-      }).then(files => { // file name filter, if listing all files without prefix, pass '' instead
-        setFiles(files);
-      }).catch(err => { 
-        console.log(err);
-      });
-    }
-    else{
-      console.log("need login to show list");
-    }
-  }
 
   useEffect(() => {
     loadList();
